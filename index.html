@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Yulu</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<style type="text/css">
+
+.jumbotron{
+margin:1%;
+
+}
+.pager li{
+padding:auto;
+
+}
+
+.styleSelect select {
+   background: url(data:image/svg+xml;base64,PHN2ZyBpZD0iTGF5ZXJfMSIgZGF0YS1uYW1lPSJMYXllciAxIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0Ljk1IDEwIj48ZGVmcz48c3R5bGU+LmNscy0xe2ZpbGw6I2ZmZjt9LmNscy0ye2ZpbGw6IzQ0NDt9PC9zdHlsZT48L2RlZnM+PHRpdGxlPmFycm93czwvdGl0bGU+PHJlY3QgY2xhc3M9ImNscy0xIiB3aWR0aD0iNC45NSIgaGVpZ2h0PSIxMCIvPjxwb2x5Z29uIGNsYXNzPSJjbHMtMiIgcG9pbnRzPSIxLjQxIDQuNjcgMi40OCAzLjE4IDMuNTQgNC42NyAxLjQxIDQuNjciLz48cG9seWdvbiBjbGFzcz0iY2xzLTIiIHBvaW50cz0iMy41NCA1LjMzIDIuNDggNi44MiAxLjQxIDUuMzMgMy41NCA1LjMzIi8+PC9zdmc+) no-repeat 100% 50%;
+  
+  
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    -webkit-border-radius: 0px;
+    appearance: none;
+    outline-width: 0;
+    
+    padding: 10px 10px 10px 5px;
+    display: block;
+    width: 150px;
+    border: none;
+    font-size: 15px;
+    position: relative;
+    left:0;
+    border-bottom: 1px solid #757575;
+}
+
+.whole{
+width:80%;
+margin:auto;
+}
+
+
+.btn{
+float:left;
+}
+
+.checkboxes{
+	clear:left;
+width:100%;
+}
+.sec1{
+
+color:white;
+
+}
+
+
+</style>
+</head>
+
+
+<body onload="callme();" >
+	
+	<nav class="navbar navbar-inverse navbar-fixed-top">
+
+  <ul class="nav navbar-nav">
+    <li><a href="#section1" ><div class="sec1"><h3>Yulu News</h3></div></a></li>
+</ul>
+</nav><br><br>
+	<div class="row">
+		<br><br><br><br><br><br>
+<div class="checkboxes ">
+<center>
+ <label class="checkbox-inline"><input type="checkbox" autocomplete="off" value="bbc-news" onchange="validate()" >BBC</label> 
+ <label class="checkbox-inline"><input type="checkbox" autocomplete="off" value="buzzfeed"  onchange="validate()">Buzzfeed</label>
+  <label class="checkbox-inline"><input type="checkbox" autocomplete="off" value="cbc-news"  onchange="validate()">Cbs News</label>
+  <label class="checkbox-inline"><input type="checkbox"  autocomplete="off" value="daily-mail"  onchange="validate()">Daily Mail</label></center>
+</center></div></div>
+<hr>
+<div class="whole">
+
+
+
+<div class="row">
+
+<div class="col-md-4 col-xs-12">
+	<form>
+  <div class="input-group">
+    <input type="text" class="form-control" placeholder="Search" id="search">
+    <div class="input-group-btn">
+     <button type="button" class="btn btn-success" onclick="keyword();">Filter Search</button>
+    </div>
+  </div>
+</form> </div>
+
+<div class="col-md-5"></div>
+<div class="col-md-3 col-xs-12">
+<div class="styleSelect" >
+<select id="popu" onchange="dropdown();"  >
+  <option value="popularity" >Popularity</option>
+
+  <option value="today" >Today</option>
+
+  
+</select></div>
+
+</div></div>
+
+<div id="output"> 
+	
+</div>
+ </div>
+
+</div>
+ <ul class="pager">
+  <li onclick="pagination('0');"><a>Previous </a></li>
+  <li id="pageno">0</li>
+  <li onclick="pagination('1');"><a>Next</a></li>
+</ul> 
+
+
+
+
+</body>
+
+
+
+<script >
+
+var url;
+
+var myapp={};
+
+
+function callme(){
+myapp.count=0;
+url = 'https://newsapi.org/v2/top-headlines?country=us&apiKey=f6d6e8be0405471ebd5c069126302fe9';
+var myJson;
+myJson=getj();
+}
+
+
+
+
+function keyword(){
+var text=document.getElementById("search").value;
+
+	url = 'https://newsapi.org/v2/everything?q=' +text
+         +'&sortBy=relevancy&' +
+          'apiKey=f6d6e8be0405471ebd5c069126302fe9';
+      
+          document.getElementById('output').innerHTML="";
+          reset();
+getj();
+
+
+}
+
+
+function dropdown(){
+
+
+ var d=document.getElementById('popu').value;
+ if (d=="today"){
+	
+var today = new Date();
+var dd = today.getDate();
+var mm = today.getMonth()+1; //January is 0!
+var yyyy = today.getFullYear();
+
+
+var t='q=politics&from='+ yyyy+ '-' + mm + '-' + dd;
+url = 'https://newsapi.org/v2/everything?'+t+'&apiKey=f6d6e8be0405471ebd5c069126302fe9';
+
+}
+else if (d=="popularity"){
+
+
+var today='sortBy=popularity';
+url = 'https://newsapi.org/v2/top-headlines?country=us&' +today+'&apiKey=f6d6e8be0405471ebd5c069126302fe9';
+
+}
+
+ document.getElementById('output').innerHTML="";
+
+ reset();
+getj();
+
+
+}
+
+function validate(){
+	
+	var chec =document.querySelectorAll('input[type=checkbox]:checked');
+	
+if (chec.length==0){
+callme();
+}
+var source="";
+for(var i=0;i<chec.length;i++){
+	
+source=source+chec[i].value+','
+}
+var s = source.slice(0, source.length-1);
+
+url="https://newsapi.org/v2/top-headlines?sources="+s+"&apiKey=f6d6e8be0405471ebd5c069126302fe9";
+
+document.getElementById('output').innerHTML="";
+	reset();
+getj();
+
+}
+
+
+
+
+
+
+function process(myJson){
+
+start=myapp.count;
+end=start+10;
+var ba='<a href='
+var a='><div class="jumbotron"><div class="media "> <div class="row"><div class="media-left media-middle col-xs-12 col-md-4">   <img src=';
+var b='class="media-object" alt="Image not available" style="width:250px; height:200px;"> </div><div class="media-body " style="color:black;"><h4 class="media-heading col-xs-12 col-md-8"><p >'
+var c='</p></h4></div><h5><p class="col-xs-12 col-md-8 " style="font-size:15px;color:black;">'
+var d='</p></div></div></h5></a>'
+
+if(myJson.articles.length<end){
+end=myJson.articles.length;
+}
+
+if (start >= myJson.articles.length || start == end ){
+document.getElementById('output').innerHTML="<center><h1>Thats all Floks!! go-back </h1></center>";
+}
+
+for(var i=start;i<end;i++){
+	var e=JSON.stringify(myJson.articles[i]['title']).replace( /"/g, "" );
+	var f=JSON.stringify(myJson.articles[i]['description']).replace( /"/g, "" );
+	var h=JSON.stringify(myJson.articles[i]['url'])
+var result=ba+h+a+JSON.stringify(myJson.articles[i]['urlToImage'])+b+e+c+f+d;
+document.getElementById('output').innerHTML=document.getElementById('output').innerHTML+result;
+
+}
+
+}
+
+
+
+function reset(){
+
+myapp.count=0;
+}
+
+
+function pagination(c){
+
+if(parseInt(c)){
+	
+
+	myapp.count=myapp.count+10;
+	document.getElementById('pageno').innerHTML=parseInt(myapp.count/10);
+	document.getElementById('output').innerHTML="";
+	/*
+var s=document.getElementById('start').innerHTML;
+alert("entered"+s);
+document.getElementById('start').innerHTML=parseInt(s)+10;
+alert("updates is "+document.getElementById('start').innerHTML);
+*/
+getj();
+
+
+}
+else{
+	if(myapp.count!=0)
+	myapp.count=myapp.count-10;
+	document.getElementById('pageno').innerHTML=parseInt(myapp.count/10);
+
+document.getElementById('output').innerHTML="";
+getj();
+	/*
+var e=document.getElementById('end').getAttribute("data-value");
+document.getElementById('end').setAttribute("data-value")=e-10;
+
+alert('pag2'+count);*/
+
+
+}
+
+}
+
+
+
+
+function getj(){
+
+
+
+fetch(url).then(r => r.json()).then(data => {
+	document.getElementById('output').innerHTML=data.json();
+  console.log(data); // this works
+
+});
+
+
+fetch(url)
+  .then(function(response) {
+    console.log(`status: ${response.status}`);
+    console.dir(response.body);
+    return response.json() // the important line 
+  })
+  .then(function(myJson) {
+
+    process(myJson)
+  })
+  .then(console.log)
+
+
+
+}
+
+
+
+</script></html>
